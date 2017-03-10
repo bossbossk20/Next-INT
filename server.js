@@ -3,14 +3,13 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const axios = require('axios')
 const app = express()
-const instance = axios.create({
-  baseURL: 'https://api.line.me/v2/bot/message',
-  timeout: 1000,
-  headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer RB8fheVRXK2Tckel5O4OU80MHWFanHJnfpR+4sjBkWp5dCZpgLR1ofUW5p2Vymk5USUmf8SVhW3i5BYDeqMOeCwcbmDgrJl5go1T7mBwsuQIeX2+HNOnigbxpIqaQ8lTpeGuk/9iMIlPB+pyXIaZlwdB04t89/1O/w1cDnyilFU='
-    }
-})
+// const instance = axios.create({
+//   baseURL: 'https://api.line.me/v2/bot/message',
+//   headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer RB8fheVRXK2Tckel5O4OU80MHWFanHJnfpR+4sjBkWp5dCZpgLR1ofUW5p2Vymk5USUmf8SVhW3i5BYDeqMOeCwcbmDgrJl5go1T7mBwsuQIeX2+HNOnigbxpIqaQ8lTpeGuk/9iMIlPB+pyXIaZlwdB04t89/1O/w1cDnyilFU='
+//     }
+// })
 app.use(bodyParser.json())
 
 app.set('port', (process.env.PORT || 4000))
@@ -45,23 +44,23 @@ function sendText (sender, text) {
     ]
   }
 
-  axios.post('/push', data).then((res) => {
-    console.log(res)
-  })
-  // request({
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer RB8fheVRXK2Tckel5O4OU80MHWFanHJnfpR+4sjBkWp5dCZpgLR1ofUW5p2Vymk5USUmf8SVhW3i5BYDeqMOeCwcbmDgrJl5go1T7mBwsuQIeX2+HNOnigbxpIqaQ8lTpeGuk/9iMIlPB+pyXIaZlwdB04t89/1O/w1cDnyilFU='
-  //   },
-  //   url: 'https://api.line.me/v2/bot/message/push',
-  //   method: 'POST',
-  //   body: data,
-  //   json: true
-  // }, function (err, res, body) {
-  //   if (err) console.log('error')
-  //   if (res) console.log('success')
-  //   if (body) console.log(body)
+  // axios.post('/push', data).then((res) => {
+  //   console.log(res)
   // })
+  request({
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer RB8fheVRXK2Tckel5O4OU80MHWFanHJnfpR+4sjBkWp5dCZpgLR1ofUW5p2Vymk5USUmf8SVhW3i5BYDeqMOeCwcbmDgrJl5go1T7mBwsuQIeX2+HNOnigbxpIqaQ8lTpeGuk/9iMIlPB+pyXIaZlwdB04t89/1O/w1cDnyilFU='
+    },
+    url: 'https://api.line.me/v2/bot/message/push',
+    method: 'POST',
+    body: data,
+    json: true
+  }, function (err, res, body) {
+    if (err) console.log('error')
+    if (res) console.log('success')
+    if (body) console.log(body)
+  })
 }
 
 app.listen(app.get('port'), function () {
