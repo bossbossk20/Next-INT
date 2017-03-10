@@ -39,7 +39,7 @@ function sendText (sender, text) {
   request({
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer qs8fKYnmiSfdWYcQwJnJENMtqrZKswlJoBSKg2ka6a1BNlphgNQ9LAQjT9+tSvsts9ToiNoX82LF6rWfHMMM9yPTHfPQhFdJjecjjbmr2RBRatGFsVgkDhITHsO4TD2x98ybbmRWcuNXv9/fNuDHJAdB04t89/1O/w1cDnyilFU='
+      'Authorization': 'Bearer RB8fheVRXK2Tckel5O4OU80MHWFanHJnfpR+4sjBkWp5dCZpgLR1ofUW5p2Vymk5USUmf8SVhW3i5BYDeqMOeCwcbmDgrJl5go1T7mBwsuQIeX2+HNOnigbxpIqaQ8lTpeGuk/9iMIlPB+pyXIaZlwdB04t89/1O/w1cDnyilFU='
     },
     url: 'https://api.line.me/v2/bot/message/push',
     method: 'POST',
