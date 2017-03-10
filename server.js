@@ -6,8 +6,11 @@ const app = express()
 const instance = axios.create({
   baseURL: 'https://api.line.me/v2/bot/message',
   timeout: 1000,
-  headers: {'X-Custom-Header': 'foobar'}
-});
+  headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer RB8fheVRXK2Tckel5O4OU80MHWFanHJnfpR+4sjBkWp5dCZpgLR1ofUW5p2Vymk5USUmf8SVhW3i5BYDeqMOeCwcbmDgrJl5go1T7mBwsuQIeX2+HNOnigbxpIqaQ8lTpeGuk/9iMIlPB+pyXIaZlwdB04t89/1O/w1cDnyilFU='
+    }
+})
 app.use(bodyParser.json())
 
 app.set('port', (process.env.PORT || 4000))
