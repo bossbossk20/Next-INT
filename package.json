@@ -1,0 +1,16 @@
+{
+  "name": "NextINT",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/bossbossk20/Next-INT.git",
+  "author": "thanawat <tha_chookes@hotmail.com>",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "request": "^2.81.0"
+  }
+}
