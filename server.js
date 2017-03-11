@@ -30,7 +30,6 @@ app.post('/webhook', (req, res) => {
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     sendText(sender, text)
   }
-  res.sendStatus(200)
 })
 
 function sendText (sender, text) {
