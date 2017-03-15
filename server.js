@@ -75,7 +75,7 @@ app.post('/webhook', (req, res) => {
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     sendText(sender, text)
-  } else if (text === 'เหนื่อยมั่ย') {
+  } else if (text === 'เหนื่อยไหม') {
     pg.connect(connString, function (err, client, done) {
       if (err) response.send('Could not connect to DB: ' + err)
       // client.query('insert into test values (1,"koy")')
@@ -97,7 +97,7 @@ app.post('/webhook', (req, res) => {
   }
 })
 
-app.get('/example' , (req , res) => {
+app.get('/tem_data' , (req , res) => {
   pg.connect(connString, function (err, client, done) {
     if (err) response.send('Could not connect to DB: ' + err)
     // client.query('insert into test values (1,"koy")')
