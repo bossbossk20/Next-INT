@@ -99,7 +99,7 @@ app.post('/webhook', (req, res) => {
   }
 })
 
-app.get('/tem_data' , (req , res) => {
+app.get('/temp_data' , (req , res) => {
   pg.connect(connString, function (err, client, done) {
     if (err) response.send('Could not connect to DB: ' + err)
     // client.query('insert into test values (1,"koy")')
