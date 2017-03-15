@@ -83,10 +83,13 @@ app.post('/webhook', (req, res) => {
         done()
         if (err) return response.send(err)
         // console.log(result.rows)
-        res.send(result.rows)
+        // res.send(result.rows)
+
         result.rows.map((item) => {
-          console.log(result.rows.day + '/' +result.rows.month + '/' + result.rows.year +'\n temperature : ' + result.rows[0].temperature)
-            sendText(sender, result.rows.day + '/' +result.rows.month + '/' + result.rows.year +'\n temperature : ' + result.rows.temperature)
+          // console.log(i.day)
+          console.log(item)
+          console.log(item.day + '/' + item.month + '/' + item.year +'\n temperature : ' + item.temperature)
+            sendText(sender, item.day + '/' +item.month + '/' + item.year +'\n temperature : ' + item.temperature)
         })
         // sendText(sender, result.rows[0])
       })
@@ -104,7 +107,7 @@ app.get('/example' , (req , res) => {
       // console.log(result.rows)
       res.send(result.rows)
       result.rows.map((item) => {
-        console.log(result.rows[0].day + '/' +result.rows[0].month + '/' + result.rows[0].year +'\n temperature : ' + result.rows[0].temperature)
+        console.log(item.day + '/' +item.month + '/' + item.year +'\n temperature : ' + item.temperature)
           // sendText(sender, result.rows[0].day + '/' +result.rows[0].month + '/' + result.rows[0].year +'/n temperature : ' + result.rows[0].temperature)
       })
       // sendText(sender, result.rows[0])
