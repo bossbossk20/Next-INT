@@ -22,7 +22,7 @@ pg.connect(connString, function (err, client, done) {
   client.query('SELECT * FROM next_int', function (err, result) {
     done()
     if (err) return response.send(err)
-    // console.log(result.rows)
+    console.log(result.rows)
   })
 })
 
@@ -76,7 +76,7 @@ app.post('/webhook', (req, res) => {
   console.log(typeof sender, typeof text)
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
-    sendText(sender, 'สวัสดีครับผม')
+    sendText(sender, text)
   } else if (text === 'เหนื่อยไหม') {
     pg.connect(connString, function (err, client, done) {
       if (err) response.send('Could not connect to DB: ' + err)
@@ -91,7 +91,7 @@ app.post('/webhook', (req, res) => {
           // console.log(i.day)
           console.log(item)
           console.log(item.day + '/' + item.month + '/' + item.year +'\n temperature : ' + item.temperature)
-            sendText('🔸 ' + sender, item.day + '/' +item.month + '/' + item.year +'\n 🔹 temperature : ' + item.temperature)
+            sendText(sender, item.day + '/' +item.month + '/' + item.year +'\n temperature : ' + item.temperature)
         })
         // sendText(sender, result.rows[0])
       })
@@ -99,7 +99,7 @@ app.post('/webhook', (req, res) => {
   }
 })
 
-app.get('/temp_data' , (req , res) => {
+app.get('/tem_data' , (req , res) => {
   pg.connect(connString, function (err, client, done) {
     if (err) response.send('Could not connect to DB: ' + err)
     // client.query('insert into test values (1,"koy")')
@@ -107,11 +107,11 @@ app.get('/temp_data' , (req , res) => {
       done()
       if (err) return response.send(err)
       // console.log(result.rows)
-       res.send(result.rows)
-      // result.rows.map((item) => {
-      //   console.log(item.day + '/' +item.month + '/' + item.year +'\n temperature : ' + item.temperature)
-      //     // sendText(sender, result.rows[0].day + '/' +result.rows[0].month + '/' + result.rows[0].year +'/n temperature : ' + result.rows[0].temperature)
-      // })
+      res.send(result.rows)
+      result.rows.map((item) => {
+        console.log(item.day + '/' +item.month + '/' + item.year +'\n temperature : ' + item.temperature)
+          // sendText(sender, result.rows[0].day + '/' +result.rows[0].month + '/' + result.rows[0].year +'/n temperature : ' + result.rows[0].temperature)
+      })
       // sendText(sender, result.rows[0])
     })
   })
