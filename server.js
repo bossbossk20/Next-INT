@@ -91,7 +91,7 @@ app.post('/webhook', (req, res) => {
           // console.log(i.day)
           console.log(item)
           console.log(item.day + '/' + item.month + '/' + item.year +'\n temperature : ' + item.temperature)
-            sendText(sender, item.day + '/' +item.month + '/' + item.year +'\n temperature : ' + item.temperature)
+            sendText('🔸 ' + sender, item.day + '/' +item.month + '/' + item.year +'\n 🔹 temperature : ' + item.temperature)
         })
         // sendText(sender, result.rows[0])
       })

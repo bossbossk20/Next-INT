@@ -2,14 +2,44 @@
 <html lang="en" ng-app="App">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
   <title>Document</title>
 </head>
 <body ng-controller="Controller as app">
-  {{app.test}}
-  <div ng-repeat='item in app.data'>
-    {{item.day}} {{item.month}} {{item.year}} {{item.temperature}}
+  <div class="container">
+    <div>
+      <h1>Temperature 10 May - 14 May 2017</h1>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Month</th>
+          <th>Year</th>
+          <th>Temperature</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat='item in app.data'>
+          <td>{{item.day}}</td>
+          <td>{{item.month}} </td>
+          <td>{{item.year}}</td>
+          <td>{{item.temperature}} C</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
+  <!-- <div ng-repeat='item in app.data'>
+    {{item.day}} {{item.month}} {{item.year}} {{item.temperature}}
+  </div> -->
 </body>
 <script src='app.js'></script>
 </html>
