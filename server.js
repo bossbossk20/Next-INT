@@ -75,7 +75,7 @@ app.post('/webhook', (req, res) => {
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     sendText(sender, text)
-  } else if ('เหนื่อยมั่ย') {
+  } else if (text === 'เหนื่อยมั่ย') {
     pg.connect(connString, function (err, client, done) {
       if (err) response.send('Could not connect to DB: ' + err)
       // client.query('insert into test values (1,"koy")')
