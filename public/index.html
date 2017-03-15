@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+  <title>Document</title>
+</head>
+<body ng-controller="Controller as app">
+  {{app.test}}
+  <div ng-repeat='item in app.data'>
+    {{item.day}} {{item.month}} {{item.year}} {{item.temperature}}
+  </div>
+</body>
+<script src='app.js'></script>
+</html>
