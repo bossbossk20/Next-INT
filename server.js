@@ -110,11 +110,7 @@ app.post('/webhook', (req, res) => {
       client.query('SELECT * FROM temperature', function (err, result) {
         done()
         if (err) return response.send(err)
-        // console.log(result.rows)
-        // res.send(result.rows)
-
         result.rows.map((item) => {
-          // console.log(i.day)
           console.log(item)
           console.log(item.day + '/' + item.month + '/' + item.year +'\n temperature : ' + item.temperature)
             sendText(sender, item.day + '/' +item.month + '/' + item.year +'\n temperature : ' + item.temperature)
@@ -138,17 +134,20 @@ app.post('/webhook', (req, res) => {
           // res.send(result.rows)
         })
       })
-      pg.connect(connString, function (err, client, done) {
-        if (err) response.send('Could not connect to DB: ' + err)
-        // client.query('insert into test values (1,"koy")')
-        client.query('SELECT * FROM rpi', function (err, rpiData) {
-          done()
-          if (err) console.log(err)
-          //  console.log(result.rows[0].no)
-          // console.log(result.rows.length)
-          rpi = rpiData.rows[rpiData.rows.length-1]
-          console.log(rpi)
-        })
+      // pg.connect(connString, function (err, client, done) {
+      //   if (err) response.send('Could not connect to DB: ' + err)
+      //   // client.query('insert into test values (1,"koy")')
+      //   client.query('SELECT * FROM rpi', function (err, rpiData) {
+      //     done()
+      //     if (err) console.log(err)
+      //     // console.log(result.rows[0].no)
+      //     // console.log(result.rows.length)
+      //     rpi = rpiData.rows[rpiData.rows.length-1]
+      //     console.log(rpi)
+      //   })
+      // })
+      axios.get('https://nextint.herokuapp.com/w_api').then((w) => {
+        rpi = w.data
       })
       setTimeout(() => {
         sendText(sender, 'ความชื่นดิน :'+ rpi.adc_data +'%\n สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.pressure_mb + 'pha\n ความชื่นอากาศ : ' + response.data.current_observation.relative_humidity + '\n อุณหภูมิ : ' + response.data.current_observation.temp_c)
