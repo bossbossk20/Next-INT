@@ -5,7 +5,8 @@ const app = express()
 const routes = require('./routes')
 const pg = require('pg')
 const axios = require('axios')
-const connString = 'postgres://poztqmtwsusjtl:110b831a16b196e24c03785e1c3ad5b2c9e5f16b0fcc4cdec1391561c4920a2f@ec2-23-21-224-106.compute-1.amazonaws.com:5432/df4np0hds8r4s2'
+// line const connString = 'postgres://poztqmtwsusjtl:110b831a16b196e24c03785e1c3ad5b2c9e5f16b0fcc4cdec1391561c4920a2f@ec2-23-21-224-106.compute-1.amazonaws.com:5432/df4np0hds8r4s2'
+const connString = 'postgres://fpgmqsestpymmo:59673047da6830360ad4fcfd777fa79c7a1cd0c8455e2cf985f8d2c066f73b3c@ec2-54-225-230-243.compute-1.amazonaws.com:5432/d5301p41vpcsdu'
 const moment = require('moment')
 app.use(bodyParser.json())
 
@@ -16,15 +17,15 @@ pg.defaults.ssl = true
 
 app.use(express.static('public'))
 
-pg.connect(connString, function (err, client, done) {
-  if (err) response.send('Could not connect to DB: ' + err)
-  // client.query('insert into test values (1,"koy")')
-  client.query('SELECT * FROM next_int', function (err, result) {
-    done()
-    if (err) return response.send(err)
-    // console.log(result.rows)
-  })
-})
+// pg.connect(connString, function (err, client, done) {
+//   if (err) response.send('Could not connect to DB: ' + err)
+//   // client.query('insert into test values (1,"koy")')
+//   client.query('SELECT * FROM next_int', function (err, result) {
+//     done()
+//     if (err) return response.send(err)
+//     // console.log(result.rows)
+//   })
+// })
 
 app.use('/api', routes)
 
@@ -34,10 +35,22 @@ app.use('/api', routes)
 
 app.get('/kkk', (req , res) => {
   axios.get('http://api.wunderground.com/api/17ccfc69f85dc3e5/conditions/q/TH/Bangkok.json').then((response) => {
-    console.log(response.data.current_observation.temp_c)
-    console.log(response.data.current_observation.weather)
-    console.log(response.data.current_observation.pressure_mb)
-    res.send(response.data)
+    const data  = response.data
+    console.log(data.current_observation.relative_humidity)
+    console.log(data.current_observation.weather)
+    console.log(data.current_observation.pressure_mb)
+    // res.send(response.data)
+    pg.connect(connString, function (err, client, done) {
+      if (err) res.send('Could not connect to DB: ' + err)
+      // client.query('insert into test values (1,"koy")')
+      client.query(`insert into wether_api (condition, pressure, humidity) values ('${data.current_observation.weather}', '${data.current_observation.pressure_mb}', '${data.current_observation.relative_humidity}')`, function (err, result) {
+        done()
+        if (err) return res.send(err)
+        // console.log(result.rows)
+        if (!err) return res.send('add done')
+        // res.send(result.rows)
+      })
+    })
   })
 })
 
@@ -112,6 +125,7 @@ app.post('/webhook', (req, res) => {
       console.log(response.data.current_observation.weather)
       console.log(response.data.current_observation.pressure_mb)
       sendText(sender, 'สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.pressure_mb + '\n ความชื่นอากาศ : ' + response.data.current_observation.relative_humidity)
+      sendImage(sender)
     })
   }
 })
@@ -133,6 +147,35 @@ app.get('/temp_data' , (req , res) => {
     })
   })
 })
+
+function sendImage (sender) {
+  let data = {
+    to: sender,
+    messages: [
+      {
+        type: "image",
+        originalContentUrl: 'http://188.166.236.179:3000/img.jpg',
+        previewImageUrl: 'http://188.166.236.179:3000/img.jpg'
+      }
+    ]
+  }
+
+  request({
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer RB8fheVRXK2Tckel5O4OU80MHWFanHJnfpR+4sjBkWp5dCZpgLR1ofUW5p2Vymk5USUmf8SVhW3i5BYDeqMOeCwcbmDgrJl5go1T7mBwsuQIeX2+HNOnigbxpIqaQ8lTpeGuk/9iMIlPB+pyXIaZlwdB04t89/1O/w1cDnyilFU='
+    },
+    url: 'https://api.line.me/v2/bot/message/push',
+    method: 'POST',
+    body: data,
+    json: true
+  }, function (err, res, body) {
+    if (err) console.log('error')
+    if (res) console.log('success')
+    if (body) console.log(body)
+  })
+}
+
 
 function sendText (sender, text) {
   let data = {
