@@ -141,7 +141,7 @@ app.post('/webhook', (req, res) => {
       })
       setTimeout(() => {
         sendText(sender, 'ความชื่นดิน :'+ rpi.adc_data +'\n สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.pressure_mb + '\n ความชื่นอากาศ : ' + response.data.current_observation.relative_humidity)
-        sendImage(sender, url)
+        sendImage(sender, rpiData.image_url)
       }, 1000)
     })
   }
