@@ -16,7 +16,7 @@ app.use(bodyParser.json())
 pg.defaults.ssl = true
 
 app.use(express.static('public'))
-var rpi = {}
+var rpi = ''
 pg.connect(connString, function (err, client, done) {
   if (err) response.send('Could not connect to DB: ' + err)
   // client.query('insert into test values (1,"koy")')
@@ -24,7 +24,9 @@ pg.connect(connString, function (err, client, done) {
     done()
     if (err) console.log(err)
     //  console.log(result.rows[0].no)
-    rpi = result.rows[0]
+    // console.log(result.rows.length)
+    rpi = result.rows[result.rows.length-1]
+    console.log(rpi)
   })
 })
 
@@ -127,7 +129,7 @@ app.post('/webhook', (req, res) => {
       console.log(response.data.current_observation.pressure_mb)
       setTimeout(() => {
         sendText(sender, 'ความชื่นดิน :'+ rpi.adc_data +'\n สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.pressure_mb + '\n ความชื่นอากาศ : ' + response.data.current_observation.relative_humidity)
-        // sendImage(sender)
+        sendImage(sender)
       }, 1000)
     })
   }
@@ -157,8 +159,8 @@ function sendImage (sender) {
     messages: [
       {
         type: "image",
-        originalContentUrl: 'https://camo.githubusercontent.com/f8ea5eab7494f955e90f60abc1d13f2ce2c2e540/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f323037383234352f3235393331332f35653833313336322d386362612d313165322d383435332d6536626439353663383961342e706e67'
-
+        originalContentUrl: 'https://lh4.googleusercontent.com/_Gu4rp6sni2I/Ta6br6NWFCI/AAAAAAAAABg/xxmCWHUqfdA/s128/facebook.png'
+        previewImageUrl: 'https://lh4.googleusercontent.com/_Gu4rp6sni2I/Ta6br6NWFCI/AAAAAAAAABg/xxmCWHUqfdA/s128/facebook.png'
       }
     ]
   }
