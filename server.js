@@ -159,8 +159,8 @@ function sendImage (sender) {
     messages: [
       {
         type: "image",
-        originalContentUrl: 'https://lh4.googleusercontent.com/_Gu4rp6sni2I/Ta6br6NWFCI/AAAAAAAAABg/xxmCWHUqfdA/s128/facebook.png',
-        previewImageUrl: 'https://lh4.googleusercontent.com/_Gu4rp6sni2I/Ta6br6NWFCI/AAAAAAAAABg/xxmCWHUqfdA/s128/facebook.png'
+        originalContentUrl: 'https://res.cloudinary.com/tia-img/image/fetch/t_author_avatar/https%3A%2F%2Fcdn.techinasia.com%2Fwp-content%2Fauthors%2F48250.jpeg%3Fv%3D1482930739',
+        previewImageUrl: 'https://res.cloudinary.com/tia-img/image/fetch/t_author_avatar/https%3A%2F%2Fcdn.techinasia.com%2Fwp-content%2Fauthors%2F48250.jpeg%3Fv%3D1482930739'
       }
     ]
   }
