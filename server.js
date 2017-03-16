@@ -151,7 +151,7 @@ app.post('/webhook', (req, res) => {
         })
       })
       setTimeout(() => {
-        sendText(sender, 'ความชื่นดิน :'+ rpi.adc_data +'%\n สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.pressure_mb + 'pha\n ความชื่นอากาศ : ' + response.data.current_observation.relative_humidity + '\n อุณหภูมิ : ' +response.data_current_observation.temp_c)
+        sendText(sender, 'ความชื่นดิน :'+ rpi.adc_data +'%\n สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.pressure_mb + 'pha\n ความชื่นอากาศ : ' + response.data.current_observation.relative_humidity + '\n อุณหภูมิ : ' + response.data.current_observation.temp_c)
         sendImage(sender, rpi.image_url)
       }, 1000)
     })
