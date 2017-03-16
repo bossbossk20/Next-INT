@@ -17,6 +17,7 @@ pg.defaults.ssl = true
 
 app.use(express.static('public'))
 var rpi = {}
+var we = {}
 pg.connect(connString, function (err, client, done) {
   if (err) response.send('Could not connect to DB: ' + err)
   // client.query('insert into test values (1,"koy")')
@@ -123,10 +124,10 @@ app.post('/webhook', (req, res) => {
         rpi = r.data
       })
       axios.get('https://nextint.herokuapp.com/get_w_api').then((w) => {
-        rpi = w.data
+        we = w.data
       })
       setTimeout(() => {
-        sendText(sender, 'ความชื่นดิน :'+ rpi.adc_data +'%\n สภาพอากาศ : ' + rpi.codition + '\n ความกดดันอากาศ : ' + rpi.pressure + 'pha\n ความชื่นอากาศ : ' + rpi.humidity + '\n อุณหภูมิ : ' + rpi.temp)
+        sendText(sender, 'ความชื่นดิน :'+ rpi.adc_data +'\n สภาพอากาศ : ' + we.codition + '\n ความกดดันอากาศ : ' + we.pressure + 'pha\n ความชื่นอากาศ : ' + we.humidity + '\n อุณหภูมิ : ' + we.temp)
         sendImage(sender, rpi.image_url)
       }, 1000)
     })
