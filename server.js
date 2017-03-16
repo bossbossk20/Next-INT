@@ -159,7 +159,7 @@ function sendImage (sender) {
     messages: [
       {
         type: "image",
-        originalContentUrl: 'https://lh4.googleusercontent.com/_Gu4rp6sni2I/Ta6br6NWFCI/AAAAAAAAABg/xxmCWHUqfdA/s128/facebook.png'
+        originalContentUrl: 'https://lh4.googleusercontent.com/_Gu4rp6sni2I/Ta6br6NWFCI/AAAAAAAAABg/xxmCWHUqfdA/s128/facebook.png',
         previewImageUrl: 'https://lh4.googleusercontent.com/_Gu4rp6sni2I/Ta6br6NWFCI/AAAAAAAAABg/xxmCWHUqfdA/s128/facebook.png'
       }
     ]
