@@ -108,22 +108,25 @@ app.post('/webhook', (req, res) => {
       console.log(response.data.current_observation.relative_humidity)
       console.log(response.data.current_observation.weather)
       console.log(response.data.current_observation.pressure_mb)
-      pg.connect(connString, function (err, client, done) {
-        if (err) res.send('Could not connect to DB: ' + err)
-        // client.query('insert into test values (1,"koy")')
-        client.query(`insert into w_api (codition, pressure, humidity, temp) values ('${response.data.current_observation.weather}', '${response.data.current_observation.pressure_mb}', '${response.data.current_observation.relative_humidity}', '${response.data.current_observation.temp_c}')`, function (err, result) {
-          done()
-          if (err) return console.log(err)
-          // console.log(result.rows)
-          if (!err) return console.log('add done')
-          // res.send(result.rows)
-        })
+      // pg.connect(connString, function (err, client, done) {
+      //   if (err) res.send('Could not connect to DB: ' + err)
+      //   // client.query('insert into test values (1,"koy")')
+      //   client.query(`insert into w_api (codition, pressure, humidity, temp) values ('${response.data.current_observation.weather}', '${response.data.current_observation.pressure_mb}', '${response.data.current_observation.relative_humidity}', '${response.data.current_observation.temp_c}')`, function (err, result) {
+      //     done()
+      //     if (err) return console.log(err)
+      //     // console.log(result.rows)
+      //     if (!err) return console.log('add done')
+      //     // res.send(result.rows)
+      //   })
+      // })
+      axios.get('https://nextint.herokuapp.com/get_rpi').then((r) => {
+        rpi = r.data
       })
-      axios.get('https://nextint.herokuapp.com/get_rpi').then((w) => {
+      axios.get('https://nextint.herokuapp.com/get_w_api').then((w) => {
         rpi = w.data
       })
       setTimeout(() => {
-        sendText(sender, 'ความชื่นดิน :'+ rpi.adc_data +'%\n สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.pressure_mb + 'pha\n ความชื่นอากาศ : ' + response.data.current_observation.relative_humidity + '\n อุณหภูมิ : ' + response.data.current_observation.temp_c)
+        sendText(sender, 'ความชื่นดิน :'+ rpi.adc_data +'%\n สภาพอากาศ : ' + rpi.codition + '\n ความกดดันอากาศ : ' + rpi.pressure + 'pha\n ความชื่นอากาศ : ' + rpi.humidity + '\n อุณหภูมิ : ' + rpi.temp)
         sendImage(sender, rpi.image_url)
       }, 1000)
     })
