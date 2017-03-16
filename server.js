@@ -105,9 +105,9 @@ app.post('/webhook', (req, res) => {
     sendText(sender, text)
   } else if (text == 'now') {
     axios.get('http://api.wunderground.com/api/17ccfc69f85dc3e5/conditions/q/TH/Bangkok.json').then((response) => {
-      console.log(response.data.current_observation.relative_humidity)
-      console.log(response.data.current_observation.weather)
-      console.log(response.data.current_observation.pressure_mb)
+      // console.log(response.data.current_observation.relative_humidity)
+      // console.log(response.data.current_observation.weather)
+      // console.log(response.data.current_observation.pressure_mb)
       // pg.connect(connString, function (err, client, done) {
       //   if (err) res.send('Could not connect to DB: ' + err)
       //   // client.query('insert into test values (1,"koy")')
