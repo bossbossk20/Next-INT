@@ -135,7 +135,7 @@ app.post('/webhook', (req, res) => {
           if (err) console.log(err)
           //  console.log(result.rows[0].no)
           // console.log(result.rows.length)
-          rpi = result.rows[rpiData.rows.length-1]
+          rpi = rpiData.rows[rpiData.rows.length-1]
           console.log(rpi)
         })
       })
