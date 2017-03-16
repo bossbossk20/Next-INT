@@ -103,21 +103,6 @@ app.post('/webhook', (req, res) => {
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     sendText(sender, text)
-  } else if (text === 'เหนื่อยไหม') {
-    pg.connect(connString, function (err, client, done) {
-      if (err) response.send('Could not connect to DB: ' + err)
-      // client.query('insert into test values (1,"koy")')
-      client.query('SELECT * FROM temperature', function (err, result) {
-        done()
-        if (err) return response.send(err)
-        result.rows.map((item) => {
-          console.log(item)
-          console.log(item.day + '/' + item.month + '/' + item.year +'\n temperature : ' + item.temperature)
-            sendText(sender, item.day + '/' +item.month + '/' + item.year +'\n temperature : ' + item.temperature)
-        })
-        // sendText(sender, result.rows[0])
-      })
-    })
   } else if (text == 'now') {
     axios.get('http://api.wunderground.com/api/17ccfc69f85dc3e5/conditions/q/TH/Bangkok.json').then((response) => {
       console.log(response.data.current_observation.relative_humidity)
@@ -134,19 +119,7 @@ app.post('/webhook', (req, res) => {
           // res.send(result.rows)
         })
       })
-      // pg.connect(connString, function (err, client, done) {
-      //   if (err) response.send('Could not connect to DB: ' + err)
-      //   // client.query('insert into test values (1,"koy")')
-      //   client.query('SELECT * FROM rpi', function (err, rpiData) {
-      //     done()
-      //     if (err) console.log(err)
-      //     // console.log(result.rows[0].no)
-      //     // console.log(result.rows.length)
-      //     rpi = rpiData.rows[rpiData.rows.length-1]
-      //     console.log(rpi)
-      //   })
-      // })
-      axios.get('https://nextint.herokuapp.com/w_api').then((w) => {
+      axios.get('https://nextint.herokuapp.com/get_rpi').then((w) => {
         rpi = w.data
       })
       setTimeout(() => {
