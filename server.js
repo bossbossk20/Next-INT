@@ -25,7 +25,7 @@ pg.connect(connString, function (err, client, done) {
     if (err) console.log(err)
     //  console.log(result.rows[0].no)
     // console.log(result.rows.length)
-    rpi = result.rows[rpiData.rows.length-1]
+    rpi = rpiData.rows[rpiData.rows.length-1]
     console.log(rpi)
   })
 })
