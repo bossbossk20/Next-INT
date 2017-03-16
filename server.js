@@ -105,21 +105,22 @@ app.post('/webhook', (req, res) => {
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     sendText(sender, text)
   } else if (text == 'now') {
-    axios.get('http://api.wunderground.com/api/17ccfc69f85dc3e5/conditions/q/TH/Bangkok.json').then((response) => {
+    // axios.get('http://api.wunderground.com/api/17ccfc69f85dc3e5/conditions/q/TH/Bangkok.json').then((response) => {
+    axios.get('http://api.wunderground.com/api/51f8fbaa1dd57ed2/conditions/q/WI/wisconsin_dells.json').then((response) => {
       // console.log(response.data.current_observation.relative_humidity)
       // console.log(response.data.current_observation.weather)
       // console.log(response.data.current_observation.pressure_mb)
-      // pg.connect(connString, function (err, client, done) {
-      //   if (err) res.send('Could not connect to DB: ' + err)
-      //   // client.query('insert into test values (1,"koy")')
-      //   client.query(`insert into w_api (codition, pressure, humidity, temp) values ('${response.data.current_observation.weather}', '${response.data.current_observation.pressure_mb}', '${response.data.current_observation.relative_humidity}', '${response.data.current_observation.temp_c}')`, function (err, result) {
-      //     done()
-      //     if (err) return console.log(err)
-      //     // console.log(result.rows)
-      //     if (!err) return console.log('add done')
-      //     // res.send(result.rows)
-      //   })
-      // })
+      pg.connect(connString, function (err, client, done) {
+        if (err) res.send('Could not connect to DB: ' + err)
+        // client.query('insert into test values (1,"koy")')
+        client.query(`insert into w_api (codition, pressure, humidity, temp) values ('${response.data.current_observation.weather}', '${response.data.current_observation.pressure_mb}', '${response.data.current_observation.relative_humidity}', '${response.data.current_observation.temp_c}')`, function (err, result) {
+          done()
+          if (err) return console.log(err)
+          // console.log(result.rows)
+          if (!err) return console.log('add done')
+          // res.send(result.rows)
+        })
+      })
       axios.get('https://nextint.herokuapp.com/get_rpi').then((r) => {
         rpi = r.data
       })
