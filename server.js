@@ -16,7 +16,7 @@ app.use(bodyParser.json())
 pg.defaults.ssl = true
 
 app.use(express.static('public'))
-
+var rpi = {}
 pg.connect(connString, function (err, client, done) {
   if (err) response.send('Could not connect to DB: ' + err)
   // client.query('insert into test values (1,"koy")')
@@ -24,7 +24,7 @@ pg.connect(connString, function (err, client, done) {
     done()
     if (err) console.log(err)
     //  console.log(result.rows[0].no)
-    var rpi = result.rows[0]
+    rpi = result.rows[0]
   })
 })
 
