@@ -111,7 +111,7 @@ app.post('/webhook', (req, res) => {
       console.log(response.data.current_observation.relative_humidity)
       console.log(response.data.current_observation.weather)
       console.log(response.data.current_observation.pressure_mb)
-      sendText(sender, 'สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.weather + '\n ความกดอากาศ : ' + response.data.current_observation.pressure_mb)
+      sendText(sender, 'สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.pressure_mb + '\n ความชื่นอากาศ : ' + response.data.current_observation.relative_humidity)
     })
   }
 })
