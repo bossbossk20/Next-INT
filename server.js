@@ -20,12 +20,12 @@ var rpi = ''
 pg.connect(connString, function (err, client, done) {
   if (err) response.send('Could not connect to DB: ' + err)
   // client.query('insert into test values (1,"koy")')
-  client.query('SELECT * FROM rpi', function (err, result) {
+  client.query('SELECT * FROM rpi', function (err, rpiData) {
     done()
     if (err) console.log(err)
     //  console.log(result.rows[0].no)
     // console.log(result.rows.length)
-    rpi = result.rows[result.rows.length-1]
+    rpi = result.rows[rpiData.rows.length-1]
     console.log(rpi)
   })
 })
@@ -127,9 +127,21 @@ app.post('/webhook', (req, res) => {
       console.log(response.data.current_observation.relative_humidity)
       console.log(response.data.current_observation.weather)
       console.log(response.data.current_observation.pressure_mb)
+      pg.connect(connString, function (err, client, done) {
+        if (err) response.send('Could not connect to DB: ' + err)
+        // client.query('insert into test values (1,"koy")')
+        client.query('SELECT * FROM rpi', function (err, rpiData) {
+          done()
+          if (err) console.log(err)
+          //  console.log(result.rows[0].no)
+          // console.log(result.rows.length)
+          rpi = result.rows[rpiData.rows.length-1]
+          console.log(rpi)
+        })
+      })
       setTimeout(() => {
         sendText(sender, 'ความชื่นดิน :'+ rpi.adc_data +'\n สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.pressure_mb + '\n ความชื่นอากาศ : ' + response.data.current_observation.relative_humidity)
-        sendImage(sender)
+        sendImage(sender, url)
       }, 1000)
     })
   }
@@ -153,14 +165,14 @@ app.get('/temp_data' , (req , res) => {
   })
 })
 
-function sendImage (sender) {
+function sendImage (sender, url) {
   let data = {
     to: sender,
     messages: [
       {
         type: "image",
-        originalContentUrl: 'https://res.cloudinary.com/dkbuioyyu/image/upload/v1489655871/bs0fkioxunvnertrvnbc.jpg',
-        previewImageUrl: 'https://res.cloudinary.com/dkbuioyyu/image/upload/v1489655871/bs0fkioxunvnertrvnbc.jpg'
+        originalContentUrl: url,
+        previewImageUrl: url
       }
     ]
   }
