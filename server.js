@@ -6,7 +6,7 @@ const routes = require('./routes')
 const pg = require('pg')
 const axios = require('axios')
 const connString = 'postgres://poztqmtwsusjtl:110b831a16b196e24c03785e1c3ad5b2c9e5f16b0fcc4cdec1391561c4920a2f@ec2-23-21-224-106.compute-1.amazonaws.com:5432/df4np0hds8r4s2'
-
+const moment = require('moment')
 app.use(bodyParser.json())
 
 app.set('port', (process.env.PORT || 4000))
@@ -22,7 +22,7 @@ pg.connect(connString, function (err, client, done) {
   client.query('SELECT * FROM next_int', function (err, result) {
     done()
     if (err) return response.send(err)
-    console.log(result.rows)
+    // console.log(result.rows)
   })
 })
 
@@ -31,6 +31,16 @@ app.use('/api', routes)
 // app.get('/', (req, res) => {
 //   res.send('<h1>Next INT</h1>')
 // })
+
+app.get('/kkk', (req , res) => {
+  axios.get('http://api.wunderground.com/api/17ccfc69f85dc3e5/conditions/q/TH/Bangkok.json').then((response) => {
+    console.log(response.data.current_observation.temp_c)
+    console.log(response.data.current_observation.weather)
+    console.log(response.data.current_observation.pressure_mb)
+    res.send(response.data)
+  })
+})
+
 
 app.get('/save_temp', (req , res) => {
   let days = [10,11,12,13,14]
@@ -96,6 +106,13 @@ app.post('/webhook', (req, res) => {
         // sendText(sender, result.rows[0])
       })
     })
+  } else if (text == 'now') {
+    axios.get('http://api.wunderground.com/api/17ccfc69f85dc3e5/conditions/q/TH/Bangkok.json').then((response) => {
+      console.log(response.data.current_observation.relative_humidity)
+      console.log(response.data.current_observation.weather)
+      console.log(response.data.current_observation.pressure_mb)
+      sendText(sender, 'สภาพอากาศ : ' + response.data.current_observation.weather + '\n ความกดดันอากาศ : ' + response.data.current_observation.weather + '\n ความกดอากาศ : ' + response.data.current_observation.pressure_mb)
+    })
   }
 })
 
@@ -142,6 +159,10 @@ function sendText (sender, text) {
     if (res) console.log('success')
     if (body) console.log(body)
   })
+}
+
+function toTime (timestamp) {
+  return moment(timestamp).format('DD MM YYYY h');
 }
 
 app.listen(app.get('port'), function () {
