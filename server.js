@@ -130,7 +130,7 @@ app.post('/webhook', (req, res) => {
       pg.connect(connString, function (err, client, done) {
         if (err) res.send('Could not connect to DB: ' + err)
         // client.query('insert into test values (1,"koy")')
-        client.query(`insert into w_api (condition, pressure, humidity, temp) values ('${response.data.current_observation.weather}', '${response.data.current_observation.pressure_mb}', '${response.data.current_observation.relative_humidity}', '${response.data.current_observation.temp_c}')`, function (err, result) {
+        client.query(`insert into w_api (codition, pressure, humidity, temp) values ('${response.data.current_observation.weather}', '${response.data.current_observation.pressure_mb}', '${response.data.current_observation.relative_humidity}', '${response.data.current_observation.temp_c}')`, function (err, result) {
           done()
           if (err) return console.log(err)
           // console.log(result.rows)
