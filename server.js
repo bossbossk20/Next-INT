@@ -159,7 +159,7 @@ function sendImage (sender) {
     messages: [
       {
         type: "image",
-        originalContentUrl: 'https://res.cloudinary.com/tia-img/image/fetch/t_author_avatar/https%3A%2F%2Fcdn.techinasia.com%2Fwp-content%2Fauthors%2F48250.jpeg%3Fv%3D1482930739',
+        originalContentUrl: 'http://188.166.236.179:3000/img.jpg',
         previewImageUrl: 'https://res.cloudinary.com/tia-img/image/fetch/t_author_avatar/https%3A%2F%2Fcdn.techinasia.com%2Fwp-content%2Fauthors%2F48250.jpeg%3Fv%3D1482930739'
       }
     ]
