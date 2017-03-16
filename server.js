@@ -43,17 +43,17 @@ app.get('/kkk', (req , res) => {
     console.log(data.current_observation.weather)
     console.log(data.current_observation.pressure_mb)
     // res.send(response.data)
-    pg.connect(connString, function (err, client, done) {
-      if (err) res.send('Could not connect to DB: ' + err)
-      // client.query('insert into test values (1,"koy")')
-      client.query(`insert into wether_api (condition, pressure, humidity) values ('${data.current_observation.weather}', '${data.current_observation.pressure_mb}', '${data.current_observation.relative_humidity}')`, function (err, result) {
-        done()
-        if (err) return console.log(err)
-        // console.log(result.rows)
-        if (!err) return console.log('add done')
-        // res.send(result.rows)
-      })
-    })
+    // pg.connect(connString, function (err, client, done) {
+    //   if (err) res.send('Could not connect to DB: ' + err)
+    //   // client.query('insert into test values (1,"koy")')
+    //   client.query(`insert into wether_api (condition, pressure, humidity) values ('${data.current_observation.weather}', '${data.current_observation.pressure_mb}', '${data.current_observation.relative_humidity}')`, function (err, result) {
+    //     done()
+    //     if (err) return console.log(err)
+    //     // console.log(result.rows)
+    //     if (!err) return console.log('add done')
+    //     // res.send(result.rows)
+    //   })
+    // })
   })
 })
 
@@ -130,7 +130,7 @@ app.post('/webhook', (req, res) => {
       pg.connect(connString, function (err, client, done) {
         if (err) res.send('Could not connect to DB: ' + err)
         // client.query('insert into test values (1,"koy")')
-        client.query(`insert into wether_api (condition, pressure, humidity) values ('${response.data.current_observation.weather}', '${response.data.current_observation.pressure_mb}', '${response.data.current_observation.relative_humidity}')`, function (err, result) {
+        client.query(`insert into w_api (condition, pressure, humidity, temp) values ('${response.data.current_observation.weather}', '${response.data.current_observation.pressure_mb}', '${response.data.current_observation.relative_humidity}', '${response.data.current_observation.temp_c}')`, function (err, result) {
           done()
           if (err) return console.log(err)
           // console.log(result.rows)
