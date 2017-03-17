@@ -59,11 +59,11 @@ app.get('/kkk', (req , res) => {
 })
 
 
-app.get('/save_temp', (req , res) => {
-  let days = [10,11,12,13,14]
+app.get('/pre_fiveday', (req , res) => {
+  let days = [12, 13 ,14 ,15 ,16 ,17]
   let allDays = []
   days.map((item) => {
-    axios.get(`http://api.wunderground.com/api/17ccfc69f85dc3e5/history_201703${item}/q/TH/bangkok.json`).then((response) => {
+    axios.get(`http://api.wunderground.com/api/17ccfc69f85dc3e5/history_201703${item}/q/TH/nonthaburi.json`).then((response) => {
       // res.send(response.data)
       allDays.push(response.data)
     })
@@ -76,23 +76,48 @@ app.get('/save_temp', (req , res) => {
       pg.connect(connString, function (err, client, done) {
         if (err) response.send('Could not connect to DB: ' + err)
         // client.query('insert into test values (1,"koy")')
-        client.query(`insert into temperature (day, month, year, temperature) values (${day.history.date.mday}, ${day.history.date.mon}, ${day.history.date.year}, ${day.history.dailysummary[0].meantempm})`, function (err, result) {
+        client.query(`insert into pre_fiveday (temp, day, month, year) values (${day.history.dailysummary[0].meantempm}, ${day.history.date.mday}, ${day.history.date.mon}, ${day.history.date.year})`, function (err, result) {
           done()
           if (err) return res.send(err)
           console.log('add done')
         })
       })
     })
-    // pg.connect(connString, function (err, client, done) {
-    //   if (err) response.send('Could not connect to DB: ' + err)
-    //   // client.query('insert into test values (1,"koy")')
-    //   client.query('SELECT * FROM next_int', function (err, result) {
-    //     done()
-    //     if (err) return response.send(err)
-    //     console.log(result.rows)
-    //   })
-    // })
   }, 1000)
+})
+
+app.get('/post_fiveday', (req, res) => {
+  let days = [18, 19, 20, 21, 22]
+  let allDay = []
+  let allData = []
+  axios.get('http://api.wunderground.com/api/17ccfc69f85dc3e5/forecast10day/q/TH/nonthaburi.json').then((po) =>{
+    // console.log(po.data.forecast)
+    allDay = po.data.forecast.simpleforecast.forecastday
+    allDay.map((item) => {
+      if (item.date.day == 18 || item.date.day == 19 || item.date.day == 20 || item.date.day == 21 || item.date.day == 22) {
+        allData.push(item)
+      }
+      console.log(item.date.day)
+    })
+    setTimeout(function () {
+      allData.map((item) => {
+        console.log(item.date.day)
+        console.log(item.date.month)
+        console.log(item.date.year)
+        console.log(( parseInt(item.high.celsius) + parseInt(item.low.celsius)) / 2)
+        pg.connect(connString, function (err, client, done) {
+          if (err) response.send('Could not connect to DB: ' + err)
+          // client.query('insert into test values (1,"koy")')
+          client.query(`insert into post_fiveday (temp, day, month, year) values (${(( parseInt(item.high.celsius) + parseInt(item.low.celsius)) / 2)}, ${item.date.day}, ${item.date.month}, ${item.date.year})`, function (err, result) {
+            done()
+            if (err) return res.send(err)
+            console.log('add done')
+          })
+        })
+      })
+    }, 500)
+    res.send(allData)
+  })
 })
 
 app.post('/webhook', (req, res) => {
